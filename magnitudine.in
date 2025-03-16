@@ -1,0 +1,23 @@
+#72834 jksdfaj
+Sigma:
+a
+b
+c
+d
+e
+f
+g
+End
+
+Transitions:
+q1,a,q2
+q2,b,q3
+q3,c,q1
+q1,d,q1
+q1,c,q2
+End
+
+States:
+q1,S,F
+q2
+q3
