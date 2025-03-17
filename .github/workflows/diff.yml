@@ -1,13 +1,12 @@
-name: Detect Changed Files in PR
+name: Detect Changed Files in PR on Self-Hosted Runner
 
 on:
-  push:
   pull_request:
     types: [opened, synchronize, reopened]
 
 jobs:
   get_changed_files:
-    runs-on: self-hosted
+    runs-on: self-hosted  # This will run on your self-hosted runner
     
     steps:
     # Step 1: Checkout the repository code
@@ -17,15 +16,16 @@ jobs:
     # Step 2: Get the list of changed files in the pull request
     - name: Get changed files
       run: |
-        # Get the list of files changed in the pull request
+        # Fetch the changes from the pull request branch
         git fetch origin pull/${{ github.event.pull_request.number }}/head:pr-branch
+        # List the files that have changed
         git diff --name-only origin/main...pr-branch > changed_files.txt
         cat changed_files.txt
 
-    # Step 3: Optionally, do something with the changed files (e.g., perform specific actions for certain files)
+    # Step 3: Process the changed files (if needed)
     - name: Process changed files
       run: |
         while read file; do
           echo "File changed: $file"
-          # Add your custom logic for each file here
+          # You can add specific logic here for each changed file
         done < changed_files.txt
