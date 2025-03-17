@@ -9,3 +9,10 @@ jobs:
       steps:
         - name: Changed Files
           uses: tj-actions/changed-files@v46.0.1
+        - name: List all changed files
+          env:
+            ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+          run: |
+            for file in ${ALL_CHANGED_FILES}; do
+              echo "$file was changed"
+            done
