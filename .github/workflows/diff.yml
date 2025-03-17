@@ -1,0 +1,31 @@
+name: Detect Changed Files in PR
+
+on:
+  push:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  get_changed_files:
+    runs-on: self-hosted
+    
+    steps:
+    # Step 1: Checkout the repository code
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # Step 2: Get the list of changed files in the pull request
+    - name: Get changed files
+      run: |
+        # Get the list of files changed in the pull request
+        git fetch origin pull/${{ github.event.pull_request.number }}/head:pr-branch
+        git diff --name-only origin/main...pr-branch > changed_files.txt
+        cat changed_files.txt
+
+    # Step 3: Optionally, do something with the changed files (e.g., perform specific actions for certain files)
+    - name: Process changed files
+      run: |
+        while read file; do
+          echo "File changed: $file"
+          # Add your custom logic for each file here
+        done < changed_files.txt
