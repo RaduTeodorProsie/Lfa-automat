@@ -1,0 +1,11 @@
+name : Get Diff
+on:
+  pull_request:
+    branches: 
+      - master
+jobs:
+    get_diff:
+      runs-on: self-hosted
+      steps:
+        - name: Changed Files
+          uses: tj-actions/changed-files@v46.0.1
